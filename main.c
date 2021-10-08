@@ -5,8 +5,8 @@
 #include "lexer.h"
 #include "parser.h"
 
-int AvaliaExpressao(Expressao* e) {
-    int res = 0;
+float AvaliaExpressao(Expressao* e) {
+    float res = 0;
     int v1, v2;
 
     switch (e->oper) {
@@ -23,6 +23,20 @@ int AvaliaExpressao(Expressao* e) {
             v2 = AvaliaExpressao(e->op2);
             res = v1 * v2;
             break;
+        case OPER_SUB:
+            v1 = AvaliaExpressao(e->op1);
+            v2 = AvaliaExpressao(e->op2);
+            res = v1 - v2;
+            break;
+        case OPER_DIV:
+            v1 = AvaliaExpressao(e->op1);
+            v2 = AvaliaExpressao(e->op2);
+            if(v2 == 0){
+                fprintf(stderr, "Divisao por 0 encontrada.");
+                exit(2);
+            } 
+            res = (float)v1 / (float)v2;
+            break;
         default:
             printf("Operador nao reconhecido.\n");
     }
@@ -36,9 +50,9 @@ int main() {
     // arvore sintatica do programa
     Programa *p = AnalisePrograma();
 
-    int resultado = AvaliaExpressao(p->e);
+    float resultado = AvaliaExpressao(p->e);
 
-    printf("%d\n", resultado);
+    printf("%.2f\n", resultado);
 
     DestroiPrograma(p);
     FinalizaLexer();

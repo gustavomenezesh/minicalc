@@ -1,4 +1,4 @@
-print (289 + (42 * 3))
+print (289 / (42 / 3))
 
 
 Arvore sintatica resultante da analise desta expressao:
