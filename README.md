@@ -17,7 +17,7 @@ print E
 sendo E uma expressão. As expressões podem ser:
 
 ```
-E ::= (E + E) | (E * E) 
+E ::= (E + E) | (E * E)
 E ::= <numero>
 ```
 
@@ -46,6 +46,14 @@ Mais operações.
 ## Estágio 3
 
 Variáveis.
+
+Exemplo 1:
+
+```
+var x = 42
+var y = 11
+print (x + (y * 31))
+```
 
 
 ## Estágio 4

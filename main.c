@@ -3,67 +3,44 @@
 
 #include "arq.h"
 #include "lexer.h"
+#include "parser.h"
 
-void ImpBuffer(Buffer *b) {
-    for (long c = 0; c < b->tam; ++c)
-        putchar(b->cont[c]);
-}
+int AvaliaExpressao(Expressao* e) {
+    int res = 0;
+    int v1, v2;
 
-void ImprimeTipoToken(TipoToken tipo) {
-    switch(tipo) {
-        case TOKEN_INT:
-            printf("TOKEN_INT");
+    switch (e->oper) {
+        case OPER_CONST:
+            res = e->valor;
             break;
-        case TOKEN_PRINT:
-            printf("TOKEN_PRINT");
+        case OPER_SOMA:
+            v1 = AvaliaExpressao(e->op1);
+            v2 = AvaliaExpressao(e->op2);
+            res = v1 + v2;
             break;
-        case TOKEN_EOF:
-            printf("TOKEN_EOF");
-            break;
-        case TOKEN_ABREPAR:
-            printf("TOKEN_ABREPAR");
-            break;
-        case TOKEN_FECHAPAR:
-            printf("TOKEN_FECHAPAR");
-            break;
-        case TOKEN_SOMA:
-            printf("TOKEN_SOMA");
-            break;
-        case TOKEN_MULT:
-            printf("TOKEN_MULT");
-            break;
-        case TOKEN_SUB:
-            printf("TOKEN_SUB");
-            break;
-        case TOKEN_DIV:
-            printf("TOKEN_DIV");
-            break;
-        case TOKEN_ABRECOL:
-            printf("TOKEN_ABRECOL");
-            break;
-        case TOKEN_FECHACOL:
-            printf("TOKEN_FECHACOL");
-            break;
-        case TOKEN_ERRO:
-            printf("TOKEN_ERRO");
+        case OPER_MULT:
+            v1 = AvaliaExpressao(e->op1);
+            v2 = AvaliaExpressao(e->op2);
+            res = v1 * v2;
             break;
         default:
-            printf("Tipo desconhecido");
+            printf("Operador nao reconhecido.\n");
     }
+
+    return res;
 }
 
 int main() {
-    InicializaLexer("./test/literal.mc");
+    InicializaLexer("./test/expcomplexa.mc");
 
-    Token *t = ProximoToken();
-    while (t->tipo != TOKEN_EOF) {
-        printf("Tipo do token: ");
-        ImprimeTipoToken(t->tipo);
-        printf(" - Valor do token: %d\n", t->valor);
+    // arvore sintatica do programa
+    Programa *p = AnalisePrograma();
 
-        t = ProximoToken();
-    }
+    int resultado = AvaliaExpressao(p->e);
 
+    printf("%d\n", resultado);
+
+    DestroiPrograma(p);
     FinalizaLexer();
     return 0;
 }
