@@ -59,8 +59,8 @@ Expressao* AnaliseExpressao() {
         return res;
     }
 
-    if (t->tipo != TOKEN_ABREPAR) {
-        fprintf(stderr, "Erro sintatico: '(' esperado");
+    if (t->tipo != TOKEN_ABREPAR && t->tipo != TOKEN_ABRECOL) {
+        fprintf(stderr, "Erro sintatico: '(' ou '[' esperado");
         exit(2);
     }
 
@@ -96,8 +96,8 @@ Expressao* AnaliseExpressao() {
     // parentese fechando
     t = ProximoToken();
 
-    if (t->tipo != TOKEN_FECHAPAR) {
-        fprintf(stderr, "Erro sintatico: ')' esperado");
+    if (t->tipo != TOKEN_FECHAPAR && t->tipo != TOKEN_FECHACOL) {
+        fprintf(stderr, "Erro sintatico: ')' ou ']' esperado");
         exit(2);
     }
 
