@@ -14,6 +14,16 @@ long tamanho_arq(FILE *f) {
     return result;
 }
 
+void ajusta_tamanho(Buffer *b) {
+    int i;
+
+    for (i = 0; i < b->tam && b->cont[i] != '\0'; ++i)
+        ;
+
+    //printf("Tamanho do arquivo ajustado, era %d, agora %d\n", b->tam, i);
+    b->tam = i;
+}
+
 Buffer* CriaBuffer(char *nome) {
     FILE *f = fopen(nome, "r");
 
@@ -31,7 +41,7 @@ Buffer* CriaBuffer(char *nome) {
     }
 
     b->tam = tam;
-    b->cont = (char*) malloc(tam);
+    b->cont = (char*) calloc(1, tam);
 
     if (b->cont == NULL) {
         fprintf(stderr, "Erro alocando memoria com %ld bytes\n", tam);
@@ -40,6 +50,8 @@ Buffer* CriaBuffer(char *nome) {
 
     fread(b->cont, tam, 1, f);
     fclose(f);
+
+    ajusta_tamanho(b);
 
     return b;
 }
