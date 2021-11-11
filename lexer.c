@@ -69,7 +69,7 @@ Token* ProximoToken() {
         tok->valor = 0;
     } else if (isalpha(buffer->cont[pos])) {
         long initPos = pos;
-        while (!eof() && !isspace(buffer->cont[pos]))
+        while (!eof() && !isspace(buffer->cont[pos]) && !simbolo(buffer->cont[pos]))
             pos++;
         // texto do token: entre initPos e pos-1 no buffer
         char *texto = TextoToken(initPos, pos);
