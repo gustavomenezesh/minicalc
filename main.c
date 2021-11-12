@@ -70,7 +70,7 @@ void ProcessaDeclaracoes(Declaracao *d) {
 }
 
 int main() {
-    InicializaLexer("./test/var2.mc");
+    InicializaLexer("./test/ex1.mc");
 
     // arvore sintatica do programa
     Programa *p = AnalisePrograma();
